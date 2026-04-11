@@ -33,6 +33,25 @@ class MyAgentsLLM:
                 messages=messages, 
                 model=self.model, 
                 temperature=temperature,
+                stream=False
+            ) 
+            content = response.choices[0].message.content
+            print(content)
+            return content
+
+        except Exception as e: 
+            print(f'调用LLM时发生错误: {e}') 
+            return None 
+
+    def think_stream(self, messages: List[Dict[str, str]], temperature: float=0.0) -> str: 
+        """ 
+        调用LLM进行思考,并返回响应
+        """
+        try:
+            response = self.client.chat.completions.create(
+                messages=messages, 
+                model=self.model, 
+                temperature=temperature,
                 stream=True
             ) 
 
@@ -47,4 +66,4 @@ class MyAgentsLLM:
 
         except Exception as e: 
             print(f'调用LLM时发生错误: {e}') 
-            return None 
+            return None     
